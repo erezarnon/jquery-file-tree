@@ -398,7 +398,9 @@
                             li.removeClass('is-collapsed').addClass('is-empty')
 
                     # Recursive call on children
-                    @_createTree.call(@,li,item.children, currentPath + "/") if $.isArray(item.children)
+                    if $.isArray(item.children)
+                        @_createTree.call(@,li,item.children, currentPath + "/")
+                        @_closeFolder(li);
 
                 li = @settings.nodeFormatter.call(null, li)
                 ul.append(li)

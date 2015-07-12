@@ -452,6 +452,7 @@ var hasProp = {}.hasOwnProperty;
           }
           if ($.isArray(item.children)) {
             this._createTree.call(this, li, item.children, currentPath + "/");
+            this._closeFolder(li);
           }
         }
         li = this.settings.nodeFormatter.call(null, li);

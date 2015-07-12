@@ -270,7 +270,27 @@
             $(@element).data("$.filetree", null)
             $(@element).off().empty()
             return @
-        
+
+        load: (url)->
+            if (url)
+                @settings.url = url
+            $root = $(@element)
+            self = @
+            if @settings.ajax
+                $.ajax(@settings.url, @settings.requestSettings).then((data) ->
+                    data = self.settings.responseHandler(data)
+                    $(self.element).empty()
+                    return self._createTree.call(self, $root, data)
+                )
+            else if $.isArray(data) and data.length > 0
+                $(self.element).empty()
+                @_createTree.call(@, $root, data)
+            else
+                @_parseTree.call(@, $root)
+
+            return @
+
+
         ###
         # Non Public Methods
         ###
@@ -296,17 +316,7 @@
             data = @settings.data
             self = @
 
-            if @settings.ajax
-                $.ajax( @settings.url, @settings.requestSettings)
-                    .then((data) ->
-                        data = self.settings.responseHandler(data)
-                        self._createTree.call(self, $root, data)
-                    )
-            else if $.isArray(data) and data.length > 0
-                @_createTree.call(@, $root, data)
-            else
-                @_parseTree.call(@, $root)
-
+            @load.call(@)
             @_addListeners()
 
             #Reattach element after processing

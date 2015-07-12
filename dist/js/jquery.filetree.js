@@ -329,6 +329,28 @@ var hasProp = {}.hasOwnProperty;
       return this;
     };
 
+    FileTree.prototype.load = function(url) {
+      var $root, self;
+      if (url) {
+        this.settings.url = url;
+      }
+      $root = $(this.element);
+      self = this;
+      if (this.settings.ajax) {
+        $.ajax(this.settings.url, this.settings.requestSettings).then(function(data) {
+          data = self.settings.responseHandler(data);
+          $(self.element).empty();
+          return self._createTree.call(self, $root, data);
+        });
+      } else if ($.isArray(data) && data.length > 0) {
+        $(self.element).empty();
+        this._createTree.call(this, $root, data);
+      } else {
+        this._parseTree.call(this, $root);
+      }
+      return this;
+    };
+
 
     /*
      * Non Public Methods
@@ -351,16 +373,7 @@ var hasProp = {}.hasOwnProperty;
       }
       data = this.settings.data;
       self = this;
-      if (this.settings.ajax) {
-        $.ajax(this.settings.url, this.settings.requestSettings).then(function(data) {
-          data = self.settings.responseHandler(data);
-          return self._createTree.call(self, $root, data);
-        });
-      } else if ($.isArray(data) && data.length > 0) {
-        this._createTree.call(this, $root, data);
-      } else {
-        this._parseTree.call(this, $root);
-      }
+      this.load.call(this);
       this._addListeners();
       $(this.element).insertBefore($temp);
       $temp.remove();

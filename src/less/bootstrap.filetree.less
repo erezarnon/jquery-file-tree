@@ -1,31 +1,26 @@
-@import (reference) "../../bower_components/bootstrap/less/variables.less";
 @import (reference) "../../bower_components/bootstrap/less/glyphicons.less";
 
 .file-tree {
 
     .arrow {
         background: transparent;
-        color: @list-group-link-color;
         border: none;
         outline: none;
 
     }
 
-    .active .arrow {
-        color: @list-group-active-color;
-    }
-
-    .list-group-item {
+    .file-tree-file {
         border-radius:0;
     }
 
 }
 
-.list-group {
+.file-tree-dir {
 
     margin-bottom: 0;
+    list-style: none;
     
-    .list-group-item {
+    .file-tree-file {
         border-width: 1px 0;
 
         &:first-child{
@@ -41,12 +36,11 @@
     }
 }
 
-.list-group-item {
+.file-tree-file {
     border-radius:0;
     
-    li.list-group-item {
+    li.file-tree-file {
         margin: 0 -15px;
-        border-top: 1px solid @list-group-border;
         border-bottom: 0;
         padding-left: 40px;
     }
@@ -59,14 +53,11 @@
 
 .folder, .file {
     & > a {
-        color: @list-group-link-color;
         display: inline-block;
         position: relative;
         
-        &:hover{
-            color: @list-group-link-hover-color;
+        &:hover, &:focus {
             text-decoration: none;
-            background: @list-group-hover-bg;
         }
 
         &:before{
@@ -76,13 +67,7 @@
     }
 
     &.active > a {
-        color: @list-group-active-color;
         text-decoration: none;
-
-        &:hover{
-            color: @list-group-active-color;
-            background: @list-group-active-bg;
-        }
     }
 
     & > input[type=checkbox]{
@@ -113,7 +98,7 @@ li.folder{
     }
 }
 
-.list-group-item .list-group-item.file{
+.file-tree-file .file-tree-file.file{
     padding-left: 65px;
 }
 
@@ -126,7 +111,7 @@ li.folder{
         float: right;
     }
 
-    .list-group-item {
+    .file-tree-file {
         padding: 0;
     }
 
@@ -136,12 +121,12 @@ li.folder{
     }
 }
 
-.columns > .list-group{
+.columns > .file-tree-dir{
     overflow-y: auto;
     height: 100%;
 }
 
-.list-group-wrapper{
+.file-tree-wrapper{
     overflow-y: hidden;
     white-space: nowrap;
     height: 100%;
@@ -153,7 +138,6 @@ li.folder{
         top: 0;
         height: 100%;
         overflow-y: hidden;
-        border-color: @list-group-border;
         border-style: solid;
         border-width: 0px 1px 1px 0;
         
@@ -163,8 +147,6 @@ li.folder{
         
         &.empty{
             padding: 10px;
-            color: @list-group-disabled-color;
-            background: @list-group-disabled-bg;
             text-align: center;
             border-width: 1px 1px 1px 0;
         }

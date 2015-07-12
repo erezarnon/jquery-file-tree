@@ -227,10 +227,10 @@ var hasProp = {}.hasOwnProperty;
       path = path.replace(/^\/|\/$/g, "").split('/');
       $root = $(this.element);
       if (this.settings.columnView) {
-        $root = $root.find('> .list-group-wrapper');
+        $root = $root.find('> .file-tree-wrapper');
         for (index = j = 0, len = path.length; j < len; index = ++j) {
           context = path[index];
-          elem = $root.find("> .columns").eq(index).find('> ul.list-group > li > a').filter(function() {
+          elem = $root.find("> .columns").eq(index).find('> ul.file-tree-dir > li > a').filter(function() {
             return $(this).text() === context;
           });
           if (elem.length < 1) {
@@ -246,7 +246,7 @@ var hasProp = {}.hasOwnProperty;
         this.collapseAll(true);
         for (index = k = 0, len1 = path.length; k < len1; index = ++k) {
           context = path[index];
-          $root = $root.find('> ul.list-group > li').filter(function() {
+          $root = $root.find('> ul.file-tree-dir > li').filter(function() {
             return $(this).find('> a').text() === context;
           });
           if ($root.length < 1) {
@@ -347,7 +347,7 @@ var hasProp = {}.hasOwnProperty;
       $(this.element).detach();
       if (this.settings.columnView) {
         $root.addClass('file-tree-columns');
-        $root = $(document.createElement('div')).addClass('list-group-wrapper').appendTo($root);
+        $root = $(document.createElement('div')).addClass('file-tree-root').appendTo($root);
       }
       data = this.settings.data;
       self = this;
@@ -395,13 +395,13 @@ var hasProp = {}.hasOwnProperty;
       _files.sort(this._nameSort);
       _folders.sort(this._nameSort);
       data = _folders.concat(_files);
-      ul = $(document.createElement('ul')).addClass('list-group');
+      ul = $(document.createElement('ul')).addClass('file-tree-dir');
       for (k = 0, len1 = data.length; k < len1; k++) {
         item = data[k];
         if (item.type === 'file' && this.settings.hideFiles === true) {
           continue;
         }
-        li = $(document.createElement('li')).addClass(item.type + " list-group-item");
+        li = $(document.createElement('li')).addClass(item.type + " file-tree-file");
         a = $(document.createElement('a')).attr('href', '#').data('__itemId', ++this._itemId);
         if (['file', 'folder'].indexOf(item.type) > -1) {
           title = item[this.settings[item.type + "NodeTitle"]];
@@ -486,7 +486,7 @@ var hasProp = {}.hasOwnProperty;
       ev_end = $.Event('folder.opened.filetree');
       $root.trigger(ev_start);
       if (this.settings.columnView) {
-        wrapper = $root.find('.list-group-wrapper').eq(0);
+        wrapper = $root.find('.file-tree-wrapper').eq(0);
         $parent = elem.closest('.columns');
         left = $parent.position().left + $parent.outerWidth() + wrapper.scrollLeft();
         this._selectItem(elem);

@@ -194,10 +194,10 @@
             path = path.replace(/^\/|\/$/g,"").split('/')
             $root = $(@element)
             if @settings.columnView
-                $root = $root.find('> .list-group-wrapper')
+                $root = $root.find('> .file-tree-wrapper')
                 for context,index in path
                     elem = $root.find("> .columns").eq(index)
-                        .find('> ul.list-group > li > a')
+                        .find('> ul.file-tree-dir > li > a')
                         .filter(-> $(this).text() is context)
                     if elem.length < 1
                         throw new Error("The folder/file #{context} does not exists")
@@ -208,7 +208,7 @@
             else
                 @collapseAll(true)
                 for context,index in path
-                    $root = $root.find('> ul.list-group > li')
+                    $root = $root.find('> ul.file-tree-dir > li')
                         .filter(-> $(this).find('> a').text() is context)
 
                     if $root.length < 1
@@ -289,7 +289,7 @@
             #Create wrapper for column style
             if @settings.columnView
                 $root.addClass('file-tree-columns')
-                $root = $(document.createElement('div')).addClass('list-group-wrapper').appendTo($root)
+                $root = $(document.createElement('div')).addClass('file-tree-root').appendTo($root)
             
 
 
@@ -341,13 +341,13 @@
 
             data = _folders.concat(_files)
 
-            ul = $(document.createElement('ul')).addClass('list-group')
+            ul = $(document.createElement('ul')).addClass('file-tree-dir')
             
             #Loop over every item
             for item in data
                 continue if item.type is 'file' and @settings.hideFiles is true
                 
-                li = $(document.createElement('li')).addClass("#{item.type} list-group-item")
+                li = $(document.createElement('li')).addClass("#{item.type} file-tree-file")
 
                 a = $(document.createElement('a')).attr('href' , '#').data('__itemId', ++@_itemId)
 
@@ -400,7 +400,7 @@
                     # Recursive call on children
                     if $.isArray(item.children)
                         @_createTree.call(@,li,item.children, currentPath + "/")
-                        @_closeFolder(li);
+                        @_closeFolder(li)
 
                 li = @settings.nodeFormatter.call(null, li)
                 ul.append(li)
@@ -430,7 +430,7 @@
             $root.trigger(ev_start)
 
             if @settings.columnView
-                wrapper = $root.find('.list-group-wrapper').eq(0)
+                wrapper = $root.find('.file-tree-wrapper').eq(0)
                 $parent = elem.closest('.columns')
                 left = $parent.position().left + $parent.outerWidth() + wrapper.scrollLeft()
                 @_selectItem(elem)

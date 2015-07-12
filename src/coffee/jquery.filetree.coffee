@@ -388,10 +388,6 @@
                     if item.children is 'undefined' or item.children.length < 1
                         li.addClass('is-empty')
 
-                    unless @settings.columnView
-                        arrow = $(document.createElement('button')).addClass("arrow #{@settings.classes.arrow}")
-                        li.prepend(arrow)
-
                     if @settings.hideFiles
                         _subfolders = $.grep(item.children, (e) -> e.type is 'folder')
                         if _subfolders.length > 0
@@ -542,14 +538,14 @@
             unless @settings.columnView
                 $root.on(
                     'click'
-                    'li.folder.is-collapsed > button.arrow'
+                    'li.folder.is-collapsed'
                     (event) ->
                         that._openFolder($(event.target).closest('li'))
                         event.stopImmediatePropagation()
                         return
                 ).on(
                     'click'
-                    'li.folder.is-expanded > button.arrow'
+                    'li.folder.is-expanded'
                     (event) ->
                         that._closeFolder($(event.target).closest('li'))
                         event.stopImmediatePropagation()
@@ -609,8 +605,6 @@
                 children = $(sublist).find("> li")
                 
                 if children.length > 0 or $(file).hasClass('folder')
-                    arrow = $(document.createElement('button')).addClass('arrow')
-                    $(file).addClass('folder has-children is-collapsed').prepend(arrow)
                     @_parseTree(item) for item in sublist
                 else
                     $(file).addClass('file')

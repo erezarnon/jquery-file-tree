@@ -438,10 +438,6 @@ var hasProp = {}.hasOwnProperty;
           if (item.children === 'undefined' || item.children.length < 1) {
             li.addClass('is-empty');
           }
-          if (!this.settings.columnView) {
-            arrow = $(document.createElement('button')).addClass("arrow " + this.settings.classes.arrow);
-            li.prepend(arrow);
-          }
           if (this.settings.hideFiles) {
             _subfolders = $.grep(item.children, function(e) {
               return e.type === 'folder';
@@ -593,10 +589,10 @@ var hasProp = {}.hasOwnProperty;
       that = this;
       $root.on('click', 'li.folder > a, li.file > a', this._triggerClickEvent.bind(this));
       if (!this.settings.columnView) {
-        $root.on('click', 'li.folder.is-collapsed > button.arrow', function(event) {
+        $root.on('click', 'li.folder.is-collapsed', function(event) {
           that._openFolder($(event.target).closest('li'));
           event.stopImmediatePropagation();
-        }).on('click', 'li.folder.is-expanded > button.arrow', function(event) {
+        }).on('click', 'li.folder.is-expanded', function(event) {
           that._closeFolder($(event.target).closest('li'));
           event.stopImmediatePropagation();
         });
@@ -630,7 +626,7 @@ var hasProp = {}.hasOwnProperty;
     };
 
     FileTree.prototype._parseTree = function(elem) {
-      var $elem, $temp, arrow, checkbox, children, file, files, item, j, k, len, len1, sublist;
+      var $elem, $temp, checkbox, children, file, files, item, j, k, len, len1, sublist;
       $elem = $(elem);
       $temp = $(document.createElement('span')).insertAfter($elem);
       $elem.detach();
@@ -640,8 +636,6 @@ var hasProp = {}.hasOwnProperty;
         sublist = $(file).find("> ul");
         children = $(sublist).find("> li");
         if (children.length > 0 || $(file).hasClass('folder')) {
-          arrow = $(document.createElement('button')).addClass('arrow');
-          $(file).addClass('folder has-children is-collapsed').prepend(arrow);
           for (k = 0, len1 = sublist.length; k < len1; k++) {
             item = sublist[k];
             this._parseTree(item);

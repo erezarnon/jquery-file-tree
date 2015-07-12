@@ -1,7 +1,10 @@
 #jQuery-File-Tree
 A highly customisable jQuery filetree plugin for displaying folder structures.
 
-> Warning: This plugin is still in development and API may keep changing. **Do not use this in production**. If you want to use it, you are free to do it *at your own risk*. 
+> Warning: This plugin is still in development and API may keep changing.
+
+>In addition, please know that commits are being copied from a private repository, and are not tested after copying.
+Therefore, errors may be introduced in copying.
 
 ##Installation
 **Via Bower**
@@ -10,7 +13,7 @@ bower install jquery-filetree
 ```
 **Manual**
 
-Download [zip](https://github.com/vkbansal/jquery-file-tree/archive/master.zip)
+Download [zip](https://github.com/erezarnon/jquery-file-tree/archive/master.zip)
 ##Usage
 ```markup
 <link rel="stylesheet" href="path/to/filetree.css">
@@ -20,7 +23,7 @@ Download [zip](https://github.com/vkbansal/jquery-file-tree/archive/master.zip)
 ```js
 $(document).ready(function(){
 
-    $('#example').filtree(options);
+    $('#example').filetree(options);
     
 });
 ```

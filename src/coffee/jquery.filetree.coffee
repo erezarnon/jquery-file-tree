@@ -18,17 +18,17 @@
     $.fn.check = ->
         @each(->
             $(@).prop('indeterminate', false).prop('checked' ,true)
-    )
+        )
 
     $.fn.uncheck = ->
         @each(->
             $(@).prop('indeterminate', false).prop('checked' ,false)
-    )
+        )
 
     $.fn.semicheck = ->
         @each(->
             $(@).prop('indeterminate', true).prop('checked' ,false)
-    )
+        )
 
     $.fn.togglecheck = ->
         @each(->
@@ -446,7 +446,7 @@
             else
                 $children.slideDown(that.settings.animationSpeed, ->
                     elem.removeClass('is-collapsed').addClass('is-expanded')
-                    $children.removeAttr('style')
+                    $children.hide()
                     $root.trigger(ev_end)
                 )
             return

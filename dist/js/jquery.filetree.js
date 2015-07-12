@@ -4,7 +4,7 @@
  * @version 0.3.0
  * @author Vivek Kumar Bansal <contact@vkbansal.me>
  */
-var __hasProp = {}.hasOwnProperty;
+var hasProp = {}.hasOwnProperty;
 
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
@@ -223,12 +223,12 @@ var __hasProp = {}.hasOwnProperty;
      */
 
     FileTree.prototype.expandTo = function(path) {
-      var $root, context, elem, index, _i, _j, _len, _len1;
+      var $root, context, elem, index, j, k, len, len1;
       path = path.replace(/^\/|\/$/g, "").split('/');
       $root = $(this.element);
       if (this.settings.columnView) {
         $root = $root.find('> .list-group-wrapper');
-        for (index = _i = 0, _len = path.length; _i < _len; index = ++_i) {
+        for (index = j = 0, len = path.length; j < len; index = ++j) {
           context = path[index];
           elem = $root.find("> .columns").eq(index).find('> ul.list-group > li > a').filter(function() {
             return $(this).text() === context;
@@ -244,7 +244,7 @@ var __hasProp = {}.hasOwnProperty;
         }
       } else {
         this.collapseAll(true);
-        for (index = _j = 0, _len1 = path.length; _j < _len1; index = ++_j) {
+        for (index = k = 0, len1 = path.length; k < len1; index = ++k) {
           context = path[index];
           $root = $root.find('> ul.list-group > li').filter(function() {
             return $(this).find('> a').text() === context;
@@ -376,15 +376,15 @@ var __hasProp = {}.hasOwnProperty;
      */
 
     FileTree.prototype._createTree = function(elem, data, path) {
-      var $elem, a, arrow, checkbox, col, currentPath, file, item, key, li, text, title, ul, value, _files, _folders, _i, _j, _len, _len1, _subfolders;
+      var $elem, _files, _folders, _subfolders, a, arrow, checkbox, col, currentPath, file, item, j, k, key, len, len1, li, text, title, ul, value;
       if (path == null) {
         path = "/";
       }
       $elem = $(elem);
       _files = [];
       _folders = [];
-      for (_i = 0, _len = data.length; _i < _len; _i++) {
-        file = data[_i];
+      for (j = 0, len = data.length; j < len; j++) {
+        file = data[j];
         if (file.type === 'folder') {
           _folders.push(file);
         }
@@ -396,25 +396,25 @@ var __hasProp = {}.hasOwnProperty;
       _folders.sort(this._nameSort);
       data = _folders.concat(_files);
       ul = $(document.createElement('ul')).addClass('list-group');
-      for (_j = 0, _len1 = data.length; _j < _len1; _j++) {
-        item = data[_j];
+      for (k = 0, len1 = data.length; k < len1; k++) {
+        item = data[k];
         if (item.type === 'file' && this.settings.hideFiles === true) {
           continue;
         }
-        li = $(document.createElement('li')).addClass("" + item.type + " list-group-item");
+        li = $(document.createElement('li')).addClass(item.type + " list-group-item");
         a = $(document.createElement('a')).attr('href', '#').data('__itemId', ++this._itemId);
         if (['file', 'folder'].indexOf(item.type) > -1) {
-          title = item[this.settings["" + item.type + "NodeTitle"]];
-          text = item[this.settings["" + item.type + "NodeName"]];
-          currentPath = path + item[this.settings["" + item.type + "NodeName"]];
+          title = item[this.settings[item.type + "NodeTitle"]];
+          text = item[this.settings[item.type + "NodeName"]];
+          currentPath = path + item[this.settings[item.type + "NodeName"]];
         } else {
           title = text = item.name;
           currentPath = path + item.name;
         }
         a.attr('title', title).html(text).data('__path', currentPath);
-        this._lookup["" + this._itemId + ":" + text] = a;
+        this._lookup[this._itemId + ":" + text] = a;
         for (key in item) {
-          if (!__hasProp.call(item, key)) continue;
+          if (!hasProp.call(item, key)) continue;
           value = item[key];
           if (key !== 'children') {
             a.data(key, value);
@@ -492,7 +492,7 @@ var __hasProp = {}.hasOwnProperty;
         if ($children.find('> ul > li').length > 0) {
           clone = $children.clone(true);
           clone.find('> ul').data('_parent', $a);
-          clone.css('left', "" + left + "px");
+          clone.css('left', left + "px");
           clone.appendTo(wrapper);
         } else {
           wrapper.append("<div class=\"columns empty\" style=\"left: " + left + "px\"><p>empty folder</p></div>");
@@ -502,7 +502,7 @@ var __hasProp = {}.hasOwnProperty;
       } else {
         $children.slideDown(that.settings.animationSpeed, function() {
           elem.removeClass('is-collapsed').addClass('is-expanded');
-          $children.removeAttr('style');
+          $children.hide();
           return $root.trigger(ev_end);
         });
       }
@@ -571,11 +571,11 @@ var __hasProp = {}.hasOwnProperty;
       if (this._clicks === 1) {
         this._timer = setTimeout(function() {
           self._clicks = 0;
-          $a.trigger("" + item + ".click.filetree", data);
+          $a.trigger(item + ".click.filetree", data);
         }, self.settings.dblclickDelay);
       } else {
         clearTimeout(this._timer);
-        $a.trigger("" + item + ".dblclick.filetree", data);
+        $a.trigger(item + ".dblclick.filetree", data);
         this._clicks = 0;
       }
       event.preventDefault();
@@ -629,20 +629,20 @@ var __hasProp = {}.hasOwnProperty;
     };
 
     FileTree.prototype._parseTree = function(elem) {
-      var $elem, $temp, arrow, checkbox, children, file, files, item, sublist, _i, _j, _len, _len1;
+      var $elem, $temp, arrow, checkbox, children, file, files, item, j, k, len, len1, sublist;
       $elem = $(elem);
       $temp = $(document.createElement('span')).insertAfter($elem);
       $elem.detach();
       files = $elem.find("> li");
-      for (_i = 0, _len = files.length; _i < _len; _i++) {
-        file = files[_i];
+      for (j = 0, len = files.length; j < len; j++) {
+        file = files[j];
         sublist = $(file).find("> ul");
         children = $(sublist).find("> li");
         if (children.length > 0 || $(file).hasClass('folder')) {
           arrow = $(document.createElement('button')).addClass('arrow');
           $(file).addClass('folder has-children is-collapsed').prepend(arrow);
-          for (_j = 0, _len1 = sublist.length; _j < _len1; _j++) {
-            item = sublist[_j];
+          for (k = 0, len1 = sublist.length; k < len1; k++) {
+            item = sublist[k];
             this._parseTree(item);
           }
         } else {
